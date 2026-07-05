@@ -7,23 +7,30 @@ Usa **Linear como cola de trabajo** para que agentes IA coordinados procesen tar
 
 ## 🏗️ Arquitectura
 
+> 🔄 **Migración 2026-07-05:** el motor vive ahora en el equipo **Motor (MOT)** de Linear
+> — reconstruido desde cero por Liliana. El equipo Carolina AI (CAR) quedó archivado
+> como referencia histórica.
+
 ```
-                    ┌─────────────────────────┐
-                    │    STATUS LEDGER (CAR-5) │
+                    ┌──────────────────────────┐
+                    │   STATUS LEDGER (MOT-1)   │
                     │  Un comentario por agente │
-                    └─────────┬───────────────┘
+                    │  Reglas del motor: MOT-2  │
+                    └─────────┬────────────────┘
                               │
         ┌─────────────────────┼─────────────────────┐
         │                     │                     │
-   ┌────▼────┐         ┌─────▼─────┐         ┌─────▼────┐
-   │Agente   │         │ Agente    │         │ Agente   │
-   │Hermes   │         │ (futuro)  │         │ (futuro) │
-   └────┬────┘         └─────┬─────┘         └─────┬────┘
+   ┌────▼─────┐        ┌─────▼─────┐         ┌─────▼──────┐
+   │lili-claude│       │ lili-codex│         │  liliana-  │
+   │Claude Code│       │ Codex CLI │         │  hermes    │
+   │(Mac)      │       │ (Mac)     │         │  (VPS)     │
+   └────┬─────┘        └─────┬─────┘         └─────┬──────┘
         │                    │                     │
    ┌────▼────────────────────▼─────────────────────▼────┐
-   │              LINEAR QUEUE (Carolina AI)             │
+   │               LINEAR QUEUE (equipo Motor)           │
    │  Standing → Agent Todo → Agent Working → Agent Done│
-   │            ↕ Agent Needs Input ↕                    │
+   │       ↕ Agent Needs Input ↕ Agent Review ↕          │
+   │      Projects por tema: La Carolina · (IERA...)     │
    └─────────────────────┬──────────────────────────────┘
                          │
         ┌────────────────▼────────────────┐
@@ -80,6 +87,8 @@ Usa **Linear como cola de trabajo** para que agentes IA coordinados procesen tar
 | `AGENT RESUMED` | "Sigo trabajando" |
 | `AGENT FAILED` | "Error irrecuperable" |
 | `AGENT STATUS` | Bitácora actualizada del agente |
+| `AGENT AUTOMATION READY` | "Instalado y smoke test superado" (firma en MOT-2) |
+| `AGENT VAULT WRITTEN` | "Escribí en la bóveda Obsidian con aprobación previa" |
 
 ### Ciclo por ejecución
 
@@ -137,9 +146,11 @@ Cada vez que el agente se activa:
 
 ## 🔗 Links
 
-- **Linear Team:** Carolina AI
-- **Linear Project:** Team Agent Engine
-- **Label:** `agent-instructions`
+- **Linear Team:** Motor (MOT) — el equipo Carolina AI (CAR) quedó archivado
+- **Linear Project:** La Carolina (los temas nuevos tendrán su propio project: IERA, El Salvador...)
+- **Standing issues:** MOT-1 (Status Ledger) · MOT-2 (reglas del motor) · MOT-8 (skills opcionales)
+- **Label:** `agent-instructions` (dorado #DCBE61)
+- **Cerebro de fuentes:** github.com/lanayagiraldo-a11y/cerebro-carolina
 - **Dashboard Unificado:** `dashboard-unificado-la-carolina.netlify.app`
 - **Seguimiento Conductores:** `follow-up-on-driver-rotation-xl2t.vercel.app`
 - **Afiliados:** `carolina-afiliados-x7k4q.netlify.app`
@@ -149,12 +160,14 @@ Cada vez que el agente se activa:
 ## 🧪 Smoke Test
 
 ```markdown
-Crea un issue en Linear con:
-- Título: `[agent instructions][liliana-hermes][task] Tarea de prueba`
+Crea un issue en el equipo Motor con:
+- Título: `[agent instructions][<código-agente>][task] Tarea de prueba`
+  (códigos activos: lili-claude · lili-codex · liliana-hermes)
 - Estado: Agent Todo
 - Label: agent-instructions
 
-El agente lo toma automáticamente en su próximo ciclo.
+El agente lo toma en su próximo chequeo de cola. Protocolo completo del runner:
+~/AI/open-engine/queue-runner.md (agentes del Mac) o MOT-2 (reglas para todos).
 ```
 
 ---
